@@ -5,7 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
-    <title>PDF tables extractor</title>
+    <title>PDF表格擷取工具</title>
     <style>
         td {
             white-space: pre;
@@ -17,7 +17,7 @@
 
     <div class="logo-title-container">
         <img class="logo" src="logo.png" alt="Your Logo">
-        <h1 style="text-align: center;">PDF Tables Extractor</h1>
+        <h1 style="text-align: center;">PDF表格擷取工具</h1>
         <a href="https://github.com/ronnywang/pdf-table-extractor"><img class="gitimg" src="img.jpg" alt="Fork me on GitHub"
             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
     </div>
@@ -27,37 +27,37 @@
 
 
 
-    <p class="text">Tired of manually copying data from PDFs? Reclaim your time! Our PDF table extractor effortlessly
-        pulls tables from your PDFs, delivering accurate data in JSON, CSV, or HTML - ready for analysis!</p>
+    <p class="text">厭倦了手動從PDF複製數據？節省您的時間！我們的PDF表格擷取工具能輕鬆地
+        從您的PDF文件中提取表格，提供準確的JSON、CSV或HTML格式數據 - 隨時可進行分析！</p>
     <div class="dropbox">
         <div id="drop">
             <br>
             <br>
-            <span>📂Drop PDF file here</span>
+            <span>📂將PDF檔案拖放至此</span>
         </div>
         <br>
         <label for="pdf-file" class="custom-file-upload">
-            Click to choose
+            點擊選擇檔案
           </label>
           <input type="file" id="pdf-file" />
           
         <br>
 
-        <h2>Or Choose from these samples👇</h2>
-        <p>Sample: <a href="samples/pta_10229_131308_94274.pdf">Sample No.1</a></p>
-        <p>Sample: <a href="samples/rid-01.pdf">Sample No.2</a></p>
+        <h2>或從以下範例中選擇👇</h2>
+        <p>範例: <a href="samples/pta_10229_131308_94274.pdf">範例一</a></p>
+        <p>範例: <a href="samples/rid-01.pdf">範例二</a></p>
 
 
-        <label><input type="checkbox" name="merge-table">Merge table</label>
-        <label><input type="checkbox" name="merge-table-remove-first-line">Merge table and remove first line</label>
+        <label><input type="checkbox" name="merge-table">合併表格</label>
+        <label><input type="checkbox" name="merge-table-remove-first-line">合併表格並移除第一行</label>
     </div>
 
-    <h2 class="json">👉JSON Result</h2>
+    <h2 class="json">👉JSON結果</h2>
     <textarea id="json-result" style="width: 100%; height: 200px"></textarea>
-    <h2>👉CSV Result</h2>
+    <h2>👉CSV結果</h2>
     <select id="csv-select"></select>
     <textarea id="csv-result" style="width: 100%; height: 150px"></textarea>
-    <h2>👉HTML Result</h2>
+    <h2>👉HTML結果</h2>
     <div id="html-result">
     </div>
 
@@ -66,7 +66,7 @@
     <script id="script">
         var drop = document.getElementById('drop');
         function handleDrop(e) {
-            $('#json-result').text('Transfering file...');
+            $('#json-result').text('正在傳輸檔案...');
             e.stopPropagation();
             e.preventDefault();
             var files = e.dataTransfer.files;
@@ -76,7 +76,7 @@
                 var name = f.name;
                 reader.onload = function (e) {
                     var data = e.target.result;
-                    $('#json-result').text('Parsing PDF...');
+                    $('#json-result').text('正在解析PDF...');
                     parse_content(data); //btoa(arr));
                 };
                 reader.readAsArrayBuffer(f);
@@ -84,7 +84,7 @@
         }
 
         function handleFile(e) {
-            $('#json-result').text('Transfering file...');
+            $('#json-result').text('正在傳輸檔案...');
             var files = e.target.files;
             var f = files[0];
             {
@@ -92,7 +92,7 @@
                 var name = f.name;
                 reader.onload = function (e) {
                     var data = e.target.result;
-                    $('#json-result').text('Parsing PDF...');
+                    $('#json-result').text('正在解析PDF...');
                     parse_content(data); //btoa(arr));
                 };
                 reader.readAsArrayBuffer(f);
@@ -140,7 +140,7 @@
         });
 
         pdf_table_extractor_progress = function (result) {
-            $('#json-result').text("Parsing PDF, progress: " + result.currentPages + " / " + result.numPages + " pages");
+            $('#json-result').text("正在解析PDF，進度: " + result.currentPages + " / " + result.numPages + " 頁");
         };
 
         var parse_content = function (content) {
@@ -161,10 +161,10 @@
                 var all_tables = [];
                 while (page_tables = result.pageTables.shift()) {
                     if (!$('input:checkbox[name="merge-table"]').is(':checked') && !$('input:checkbox[name="merge-table-remove-first-line"]').is(':checked')) {
-                        $('#html-result').append($('<h3></h3>').text('Page ' + page_tables.page));
+                        $('#html-result').append($('<h3></h3>').text('第 ' + page_tables.page + ' 頁'));
                     }
 
-                    $('#csv-select').append($('<option></option>').text('Page ' + page_tables.page).data('data', page_tables));
+                    $('#csv-select').append($('<option></option>').text('第 ' + page_tables.page + ' 頁').data('data', page_tables));
                     if ($('input:checkbox[name="merge-table-remove-first-line"]').is(':checked') && page_tables.page > 1) {
                         all_tables = all_tables.concat(page_tables.tables.slice(1));
                     } else {
@@ -203,7 +203,7 @@
                     $('#html-result').append(table_dom);
 
                 };
-                $('#csv-select').append($('<option></option>').text('all').data('data', { 'tables': all_tables }));
+                $('#csv-select').append($('<option></option>').text('全部').data('data', { 'tables': all_tables }));
                 $('#csv-select').change();
             });;
         };
